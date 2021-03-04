@@ -1,13 +1,20 @@
 import mysql.connector
+import time 
 
-mydb = mysql.connector.connect(host="localhost",user="rony",passwd ="rhrony049",database="mr.doctor")
+class dbConnect:
+   
+    def __init__(self):
+        self.mydb = mysql.connector.connect(host="btvaoyhqtsmlkjltiwrt-mysql.services.clever-cloud.com",user="uf1ygntvtqzaqscg",passwd ="FnV84ZOV59iEVrdIeNC0",database="btvaoyhqtsmlkjltiwrt")
+        self.mycursor = self.mydb.cursor()
+    
+    # To Generate a unique Id use real Time(milisecond) as Integer
+    def time(self):
+        ms = int(round(time.time())) 
+        return ms
 
-mycursor = mydb.cursor()
-
-sqlform = "Insert into doctor(Id,Name,Info,Available_date) values(%s,%s,%s,%s)"
-
-doctors = [("102","Dr. MD. RONY AHMED","MBBS(Medicine)","2021-02-15")]
-
-mycursor.executemany(sqlform, doctors)
-
-mydb.commit()
+    def insertData_patient(self,name, age, email, password):
+        id = self.time() 
+        sqlform = "Insert into patient_info(id,name,age,email,password) values(%s,%s,%s,%s,%s)"
+        patient = [(id,name,age,email,password)]
+        self.mycursor.executemany(sqlform, patient)
+        self.mydb.commit()

@@ -1,14 +1,17 @@
 from PIL import Image,ImageTk
 import LoginPage as login
+import root as r
 
-def FirstPage(page,tk):
+page = r.root
+tk = r.tk
+def FirstPage():
     
     def login_doctor_page():               
-        login.LoginPage_Doctor(page,tk)
+        login.LoginPage_Doctor()
         Frame_login.destroy()
     
     def login_patient_page():               
-        login.LoginPage_Patient(page,tk)
+        login.LoginPage_Patient()
         Frame_login.destroy()
     
 

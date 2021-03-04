@@ -1,13 +1,6 @@
-import tkinter as tk
 from tkinter import messagebox
 import FirstPage as F1
+import root as r
 
-
-root = tk.Tk()
-root.title("Mr. Doctor")
-root.geometry("500x700")
-root.resizable(False,False)
-
-F1.FirstPage(root,tk)
-
-root.mainloop()
+F1.FirstPage()
+r.root.mainloop()
