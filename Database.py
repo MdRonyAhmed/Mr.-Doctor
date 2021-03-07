@@ -13,8 +13,47 @@ class dbConnect:
         return ms
 
     def insertData_patient(self,name, age, email, password):
-        id = self.time() 
-        sqlform = "Insert into patient_info(id,name,age,email,password) values(%s,%s,%s,%s,%s)"
-        patient = [(id,name,age,email,password)]
-        self.mycursor.executemany(sqlform, patient)
+        sql_query = "Insert into patient_info(name,age,email,password) values(%s,%s,%s,%s)"
+        patient = [(name,age,email,password)]
+        self.mycursor.executemany(sql_query, patient)
         self.mydb.commit()
+    
+    def insertData_doctor(self,name, designation, email, password):
+        sql_query = "Insert into doctor_info(email,name,designation,password) values(%s,%s,%s,%s)"
+        doctor = [(email,name,designation,password)]
+        self.mycursor.executemany(sql_query, doctor)
+        self.mydb.commit()
+
+  
+
+    # Match email and password with the database for Patient
+    def login_patient(self,Email,Password):
+        login = bool()
+        sql_query = "SELECT email,password FROM patient_info"
+        self.mycursor.execute(sql_query)
+
+        for (email,password) in self.mycursor:
+            print(email,password)
+            print(Email,Password)
+            if Email == email and Password == password:
+                login = True
+                break  
+            else:
+                login = False
+
+        return login
+               
+    
+      # Match email and password with the database for Doctor
+    def login_doctor(self,Email,Password):
+        sql_query = "SELECT email,password FROM doctor_info"
+        self.mycursor.execute(sql_query)
+
+        for (email,password) in self.mycursor:
+            if Email == email and Password == password:
+                login = True
+                break  
+            else:
+                login = False
+
+        return login

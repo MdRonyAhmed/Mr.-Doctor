@@ -22,8 +22,8 @@ def FirstPage():
     Frame_login=tk.Frame(page,bg="white")
     Frame_login.place(x=101,y=275,height=200,width=300)
 
-    tk.Button(Frame_login,command=lambda:login_doctor_page(),text="Login As Doctor",fg="White",bg="#D82A2A",font=("Open sans",18)).place(x=60,y=50,width=180,height=40)
-    tk.Button(Frame_login,command=lambda:login_patient_page(),text="Login As Patient",fg="White",bg="#D82A2A",font=("Open sans",18)).place(x=60,y=105,width=180,height=40)    
+    tk.Button(Frame_login,command=lambda:login_doctor_page(),text="Login As Doctor",fg="White",bg="#D82A2A",font=("Open sans",18)).place(x=60,y=55,width=180,height=40)
+    tk.Button(Frame_login,command=lambda:login_patient_page(),text="Login As Patient",fg="White",bg="#D82A2A",font=("Open sans",18)).place(x=60,y=110,width=180,height=40)    
         
 
     
