@@ -13,16 +13,25 @@ class dbConnect:
         return ms
 
     def insertData_patient(self,name, age, email, password):
-        sql_query = "Insert into patient_info(name,age,email,password) values(%s,%s,%s,%s)"
-        patient = [(name,age,email,password)]
-        self.mycursor.executemany(sql_query, patient)
-        self.mydb.commit()
+        try:
+            sql_query = "Insert into patient_info(name,age,email,password) values(%s,%s,%s,%s)"
+            patient = [(name,age,email,password)]
+            self.mycursor.executemany(sql_query, patient)
+            self.mydb.commit()
+            return True
+        except :
+            return False
+
     
     def insertData_doctor(self,name, designation, email, password):
-        sql_query = "Insert into doctor_info(email,name,designation,password) values(%s,%s,%s,%s)"
-        doctor = [(email,name,designation,password)]
-        self.mycursor.executemany(sql_query, doctor)
-        self.mydb.commit()
+        try:
+            sql_query = "Insert into doctor_info(email,name,designation,password) values(%s,%s,%s,%s)"
+            doctor = [(email,name,designation,password)]
+            self.mycursor.executemany(sql_query, doctor)
+            self.mydb.commit()
+            return True
+        except :
+            return False
 
   
 
@@ -33,8 +42,6 @@ class dbConnect:
         self.mycursor.execute(sql_query)
 
         for (email,password) in self.mycursor:
-            print(email,password)
-            print(Email,Password)
             if Email == email and Password == password:
                 login = True
                 break  

@@ -1,8 +1,6 @@
 import SignUp_page as signup
 import root as r
 import Database as db
-from tkinter import messagebox
-import HomePage as Home
 
 tk = r.tk
 page = r.root
@@ -10,46 +8,32 @@ Frame_login=tk.Frame(page,bg="white")
 Frame_login.place(x=75,y=210,height=340,width=350)
 
 class LoginPage_Doctor:
-    login_confirmation = bool()
     email =  tk.StringVar()
     password = tk.StringVar()
 
     def __init__(self):
-        self.swap_page()
+            self.swap_page()
 
-    def signup_page(self):
-        Frame_login.destroy()               
+    def signup_page(self):               
         signup.SignUp_doctor()
-        
+        Frame_login.destroy()
+
     def swap_page(self):    
         Frame_login.tkraise()
         self.InputBox()
-
-    # Home Page
-    def home_page(self):
-        if self.email.get()=="" or self.password.get()=="":
-            messagebox.showerror("Error","All fields are required",parent=page)
-        elif self.login_confirmation == False:
-            messagebox.showerror("Error","Invalid Email/Password",parent=page)
-        else:
-            messagebox.showinfo("Welcome","Welcome to Mr.Doctor",parent = page)
-            home_page = Home.DoctorHomePage()
-            Frame_login.destroy()
-           
-            
 
     # Login Match From Database)
     def login(self):
         email = self.email.get()
         password = self.password.get()
         dbConnect = db.dbConnect()
-        self.login_confirmation = dbConnect.login_doctor(email,password)
-        self.home_page()
-        
+        login_confirmation = dbConnect.login_doctor(email,password)
+        print(login_confirmation)
+
     # Login Form
     def InputBox(self):
         # User Name or Email
-        tk.Label(Frame_login,text="Email",anchor="center",font=("Open Sans",15,"bold"),fg="black",bg="white").place(x=25,y=10) 
+        tk.Label(Frame_login,text="User Name/Email",anchor="center",font=("Open Sans",15,"bold"),fg="black",bg="white").place(x=25,y=10) 
         user_name = tk.Entry(Frame_login,font=("Open Sans",12),bg="lightgray",textvariable=self.email)
         user_name.place(x=25,y=50,width=300,height=35)
 
@@ -67,7 +51,6 @@ class LoginPage_Doctor:
     
     
 class LoginPage_Patient:
-    login_confirmation = bool()
     email =  tk.StringVar()
     password = tk.StringVar()
 
@@ -81,31 +64,19 @@ class LoginPage_Patient:
     def swap_page(self,frame):    
         frame.tkraise()
         self.InputBox()
-
-     # Home Page
-    def home_page(self):
-        if self.email.get()=="" or self.password.get()=="":
-            messagebox.showerror("Error","All fields are required",parent=page)
-        elif self.login_confirmation == False:
-            messagebox.showerror("Error","Invalid Username/Password",parent=page)
-        else:
-            messagebox.showinfo("Welcome","Welcome to Mr.Doctor",parent=Frame_login)
-            home_page = Home.PatientHomePage()
-            Frame_login.destroy()
-            
     
     # Login Match From Database)
     def login(self):
         email = self.email.get()
         password = self.password.get()
         dbConnect = db.dbConnect()
-        self.login_confirmation = dbConnect.login_patient(email,password)
-        self.home_page()
+        login_confirmation = dbConnect.login_patient(email,password)
+        print(login_confirmation)
 
     # Login Form
     def InputBox(self):
         # User Name
-        tk.Label(Frame_login,text="Email",anchor="center",font=("Open Sans",15,"bold"),fg="black",bg="white").place(x=25,y=10) 
+        tk.Label(Frame_login,text="User Name",anchor="center",font=("Open Sans",15,"bold"),fg="black",bg="white").place(x=25,y=10) 
         user_name = tk.Entry(Frame_login,font=("Open Sans",12),bg="lightgray",textvariable=self.email)
         user_name.place(x=25,y=50,width=300,height=35)
 
