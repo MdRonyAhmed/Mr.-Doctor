@@ -1,6 +1,5 @@
 import root as r
 import Database as db
-import login2 as login
 import LoginPage as log
 from tkinter import messagebox
 
@@ -85,7 +84,7 @@ class SignUp_patient:
         tk.Button(Frame_signup,command=lambda:self.submit(),cursor="hand2",text="Signup",fg="white",bg="#e60000",font=("Open sans",18)).place(x=137,y=500,width=180,height=40)
 
         # Login Here Button
-        tk.Button(Frame_signup,command=lambda:self.login_page(), text="Already Have an Account? Login Here.",fg="#000fff",borderwidth=0,bg="white",font=("Open sans",12)).place(x=80,y=550,width=300,height=40)
+        tk.Button(Frame_signup, text="Already Have an Account? Login Here.",fg="#000fff",borderwidth=0,bg="white",font=("Open sans",12)).place(x=80,y=550,width=300,height=40)
 
 
 
