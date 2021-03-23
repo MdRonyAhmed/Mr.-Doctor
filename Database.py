@@ -23,15 +23,18 @@ class dbConnect:
             return False
 
     
-    def insertData_doctor(self,name, designation, email, password):
+    def insertData_doctor(self,name, designation, email, password,avalable_day):
+        print(avalable_day)
         try:
-            sql_query = "Insert into doctor_info(email,name,designation,password) values(%s,%s,%s,%s)"
-            doctor = [(email,name,designation,password)]
+            id = self.id_doctor()
+            sql_query = "Insert into doctor_info(id,email,name,designation,password) values(%s,%s,%s,%s,%s)"
+            doctor = [(id,email,name,designation,password)]
             self.mycursor.executemany(sql_query, doctor)
             self.mydb.commit()
             return True
         except :
             return False
+
 
   
 
@@ -64,3 +67,14 @@ class dbConnect:
                 login = False
 
         return login
+
+
+    def id_doctor(self):
+        sql_query = "(SELECT MAX(ID) FROM doctor_info)"
+        self.mycursor.execute(sql_query)
+        for ID in self.mycursor:
+            for item in ID:
+                id = item
+        if id == None:
+            id = 1000
+        return id+1

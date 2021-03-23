@@ -91,11 +91,11 @@ class SignUp_patient:
 
 class SignUp_doctor:
     submit_confirmation =bool()
-    first_name = tk.StringVar()
-    last_name = tk.StringVar()
+    name = tk.StringVar()
     designation = tk.StringVar()
     email =  tk.StringVar()
     password = tk.StringVar()
+    
 
     def __init__(self):
         self.swap_page(Frame_signup)
@@ -114,18 +114,20 @@ class SignUp_doctor:
 
     def submit(self):
         # Get Value from the Entries
-        name = self.first_name.get() +" "+ self.last_name.get()
+        name = self.name.get()
         designation = self.designation.get()
         email = self.email.get()
         password = self.password.get()
-
-        if self.first_name.get()== "" or self.last_name=="" or designation=="" or email=="" or password=="":
+        
+        dayList2 = Available_Day().availableDay()
+        
+        if name=="" or designation=="" or email=="" or password=="":
             messagebox.showerror("Error","All fields are required",parent=page)
 
         else:
             # Connect with Database
             dbConnect = db.dbConnect()
-            self.submit_confirmation = dbConnect.insertData_doctor(name,designation,email,password)
+            self.submit_confirmation = dbConnect.insertData_doctor(name,designation,email,password,dayList2)
             self.home_page()
 
 
@@ -135,28 +137,42 @@ class SignUp_doctor:
         # Title of the form
         tk.Label(Frame_signup,text="Doctor",font=("Open Sans",22,"bold"),fg="black",bg="white", borderwidth=3, relief="solid").place(x=182,y=5)
 
-        # First Name
-        tk.Label(Frame_signup,text="*First Name:",font=("Open Sans",15,"bold"),fg="black",bg="white").place(x=50,y=90)
-        tk.Entry(Frame_signup,font=("Open Sans",12),bg="white",textvariable=self.first_name,relief="raised").place(x=54,y=120,width=350,height=35)
-
-        # Last Name
-        tk.Label(Frame_signup,text="*Last Name:",font=("Open Sans",15,"bold"),fg="black",bg="white").place(x=50,y=170)
-        tk.Entry(Frame_signup,font=("Open Sans",12),bg="white",textvariable=self.last_name,relief="raised").place(x=54,y=200,width=350,height=35)
+        # Name
+        tk.Label(Frame_signup,text="*Name:",font=("Open Sans",15,"bold"),fg="black",bg="white").place(x=50,y=90)
+        tk.Entry(Frame_signup,font=("Open Sans",12),bg="white",textvariable=self.name,relief="raised").place(x=54,y=120,width=350,height=35)
 
         # Designation Information
-        tk.Label(Frame_signup,text="*Designation:",font=("Open Sans",15,"bold"),fg="black",bg="white").place(x=50,y=250)
-        tk.Entry(Frame_signup,font=("Open Sans",12),bg="white",textvariable=self.designation,relief="raised").place(x=54,y=280,width=350,height=35)
+        tk.Label(Frame_signup,text="*Designation:",font=("Open Sans",15,"bold"),fg="black",bg="white").place(x=50,y=170)
+        tk.Entry(Frame_signup,font=("Open Sans",12),bg="white",textvariable=self.designation,relief="raised").place(x=54,y=200,width=350,height=35)
 
         # Email Address
-        tk.Label(Frame_signup,text="*Email Address:",font=("Open Sans",15,"bold"),fg="black",bg="white").place(x=50,y=330)
-        tk.Entry(Frame_signup,font=("Open Sans",12),bg="white",textvariable=self.email,relief="raised").place(x=54,y=360,width=350,height=35)
+        tk.Label(Frame_signup,text="*Email Address:",font=("Open Sans",15,"bold"),fg="black",bg="white").place(x=50,y=250)
+        tk.Entry(Frame_signup,font=("Open Sans",12),bg="white",textvariable=self.email,relief="raised").place(x=54,y=280,width=350,height=35)
 
         # Password
-        tk.Label(Frame_signup,text="*Password:",font=("Open Sans",15,"bold"),fg="black",bg="white").place(x=50,y=410)
-        tk.Entry(Frame_signup,font=("Open Sans",18),bg="white",textvariable=self.password,relief="raised",show="*").place(x=54,y=440,width=350,height=35)
+        tk.Label(Frame_signup,text="*Password:",font=("Open Sans",15,"bold"),fg="black",bg="white").place(x=50,y=330)
+        tk.Entry(Frame_signup,font=("Open Sans",18),bg="white",textvariable=self.password,relief="raised",show="*").place(x=54,y=360,width=350,height=35)
         
+        # Available Day
+        tk.Label(Frame_signup,text="*Available Day:",font=("Open Sans",15,"bold"),fg="black",bg="white").place(x=50,y=410)
+        day = Available_Day()
         # Button
         tk.Button(Frame_signup,command=lambda:self.submit(),cursor="hand2",text="Signup",fg="white",bg="#e60000",font=("Open sans",18)).place(x=137,y=500,width=180,height=40)
 
         # Login Here Button
         tk.Button(Frame_signup, text="Already Have an Account? Login Here.",fg="#000fff",borderwidth=0,bg="white",font=("Open sans",12)).place(x=80,y=550,width=300,height=40)
+
+class Available_Day:  
+    dayList = []
+    list = tk.Listbox(Frame_signup, selectmode = "multiple",height=3,width=15,bg='#DCDCDC') 
+    list.place(x=230,y=410)
+    x= ['Sat','Sun','Mon','Tues','Wed','Thurs','Fri'] 
+        
+    for item in range(len(x)):     
+        list.insert(tk.END,  x[item]) 
+
+    def availableDay(self):
+        for i in self.list.curselection():
+            day = self.list.get(i)
+            self.dayList.append(day)
+        return self.dayList
