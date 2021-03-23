@@ -2,6 +2,7 @@ import root as r
 import Database as db
 import LoginPage as log
 from tkinter import messagebox
+import HomePage as Home
 
 
 tk = r.tk
@@ -47,13 +48,10 @@ class SignUp_patient:
             dbConnect = db.dbConnect()
             self.submit_confirmation = dbConnect.insertData_patient(name,age,email,password)
             self.home_page()
+            home_page = Home.PatientHomePage()
+            Frame_signup.destroy()
         
-    def login_page(self):
-        Frame_signup.destroy()
-        lg = login.LoginPage_Patient()
-        lg.signup_page()
-        
-
+      
 
     def InputBox(self):
        
@@ -129,6 +127,8 @@ class SignUp_doctor:
             dbConnect = db.dbConnect()
             self.submit_confirmation = dbConnect.insertData_doctor(name,designation,email,password,dayList2)
             self.home_page()
+            home_page = Home.DoctorHomePage()
+            Frame_signup.destroy()
 
 
 

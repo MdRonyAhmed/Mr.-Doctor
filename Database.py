@@ -1,5 +1,6 @@
 import mysql.connector
-import time 
+import json
+
 
 class dbConnect:
    
@@ -7,10 +8,6 @@ class dbConnect:
         self.mydb = mysql.connector.connect(host="btvaoyhqtsmlkjltiwrt-mysql.services.clever-cloud.com",user="uf1ygntvtqzaqscg",passwd ="FnV84ZOV59iEVrdIeNC0",database="btvaoyhqtsmlkjltiwrt")
         self.mycursor = self.mydb.cursor()
     
-    # To Generate a unique Id use real Time(milisecond) as Integer
-    def time(self):
-        ms = int(round(time.time())) 
-        return ms
 
     def insertData_patient(self,name, age, email, password):
         try:
@@ -24,11 +21,14 @@ class dbConnect:
 
     
     def insertData_doctor(self,name, designation, email, password,avalable_day):
-        print(avalable_day)
+        
+        # Covert the Available Day list to JSON format for insert into the DB
+        day_json = json.dumps(avalable_day)
+
         try:
             id = self.id_doctor()
-            sql_query = "Insert into doctor_info(id,email,name,designation,password) values(%s,%s,%s,%s,%s)"
-            doctor = [(id,email,name,designation,password)]
+            sql_query = "Insert into doctor_info(id,email,name,designation,password,Available_day) values(%s,%s,%s,%s,%s,%s)"
+            doctor = [(id,email,name,designation,password,day_json)]
             self.mycursor.executemany(sql_query, doctor)
             self.mydb.commit()
             return True
@@ -54,7 +54,7 @@ class dbConnect:
         return login
                
     
-      # Match email and password with the database for Doctor
+    # Match email and password with the database for Doctor
     def login_doctor(self,Email,Password):
         sql_query = "SELECT email,password FROM doctor_info"
         self.mycursor.execute(sql_query)
@@ -68,7 +68,7 @@ class dbConnect:
 
         return login
 
-
+    # Create Id for Doctor
     def id_doctor(self):
         sql_query = "(SELECT MAX(ID) FROM doctor_info)"
         self.mycursor.execute(sql_query)
@@ -78,3 +78,12 @@ class dbConnect:
         if id == None:
             id = 1000
         return id+1
+
+    # Get the list of Doctor from the Database
+    def doctor_list(self):
+        sql_query = "SELECT * FROM doctor_info"
+        self.mycursor.execute(sql_query)
+
+        return(self.mycursor.fetchall())
+
+     
