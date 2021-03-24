@@ -19,10 +19,10 @@ class SignUp_patient:
     password = tk.StringVar()
 
     def __init__(self):
-        self.swap_page(Frame_signup)
+        self.swap_page()
 
-    def swap_page(self,frame):    
-        frame.tkraise()
+    def swap_page(self):    
+        Frame_signup.tkraise()
         self.InputBox()
 
     # Home Page
@@ -96,10 +96,10 @@ class SignUp_doctor:
     
 
     def __init__(self):
-        self.swap_page(Frame_signup)
+        self.swap_page()
 
-    def swap_page(self,frame):    
-        frame.tkraise()
+    def swap_page(self):    
+        Frame_signup.tkraise()
         self.InputBox()
 
     # Home Page
