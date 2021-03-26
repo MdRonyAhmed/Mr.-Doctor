@@ -7,7 +7,7 @@ import Appointment_Form as appointment
 tk = r.tk
 page = r.root
 ButtonBackground_color = "#6CBB3C"
-Backgroud_color = "#6CBB3C"
+Backgroud_color = "red"
 Frame=tk.Frame(page,highlightbackground=Backgroud_color, highlightthickness=5)
 Frame.place(x=0,y=0,height=700,width=500)
 

@@ -15,7 +15,7 @@ def FirstPage():
         Frame_login.destroy()
     
 
-    page.cover = Image.open("E:\practice\picture\pic14.jpg")
+    page.cover = Image.open("E:\Projects\practice\picture\pic14.jpg")
     page.cover = ImageTk.PhotoImage(page.cover)  
     page.bg=tk.Label(page,image=page.cover).place(x=0,y=0,relwidth=1,relheight=1) 
 

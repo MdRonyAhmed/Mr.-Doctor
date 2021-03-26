@@ -35,7 +35,7 @@ class LoginPage_Doctor:
             messagebox.showinfo("Welcome","Welcome to Mr.Doctor",parent = page)
             home_page = Home.DoctorHomePage()
             Frame_login.destroy()
-           
+            
             
 
     # Login Match From Database)
@@ -72,7 +72,7 @@ class LoginPage_Patient:
     password = tk.StringVar()
 
     def __init__(self):
-            self.swap_page(Frame_login)
+        self.swap_page(Frame_login)
 
     def signup_page(self):               
         signup.SignUp_patient()
