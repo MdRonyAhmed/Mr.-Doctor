@@ -81,9 +81,20 @@ class dbConnect:
 
     # Get the list of Doctor from the Database
     def doctor_list(self):
-        sql_query = "SELECT * FROM doctor_info"
+        sql_query = "SELECT ID,name,Designation,Available_day FROM doctor_info"
         self.mycursor.execute(sql_query)
 
         return(self.mycursor.fetchall())
+
+    
+    def available_day_doctor(self,id):
+        sql_query = "SELECT ID,Available_day FROM doctor_info"
+        self.mycursor.execute(sql_query)
+
+        for (ID,Available_day) in self.mycursor:
+            if (ID == id):
+                return json.loads(Available_day)
+
+
 
      

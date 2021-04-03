@@ -3,14 +3,16 @@ import Database as db
 from tkinter import messagebox
 from tkinter import font
 import MakeAppointment
+import Database as db
 
 # Frame
 tk = r.tk
 page = r.root
 ButtonBackground_color = "#6CBB3C"
 Backgroud_color = "Black"
+
 Frame=tk.Frame(page,highlightbackground=Backgroud_color, highlightthickness=5,bg="white")
-Frame.place(x=75,y=180,height=340,width=350)
+Frame.place(x=65,y=300,height=340,width=350)
 
 # Heading & Customize font style
 heading =tk.Label(Frame,text="Appointment Form",font=("Open Sans",20,"bold"),bg="white")
@@ -23,29 +25,31 @@ heading.configure(font=f)
 patient_name = tk.StringVar()
 patient_age = tk.StringVar()
 doctorsAvailable_day = []
-doctor_id = int()
 
 # Available Day of Doctor
 def available_day(day):
     list = tk.Listbox(Frame, selectmode = "single",height=3,width=15,bg='#DCDCDC') 
-    list.place(x=180,y=160)
-      
+    list.place(x=180,y=160)   
     for item in range(len(day)):     
         list.insert(tk.END,  day[item]) 
 
 # Cancle the Form
 def cancle_form():
-    Frame.destroy()
     MakeAppointment.swap_page()
 
+def available_dayList(id):
+    database_connect = db.dbConnect()
+    availableDay = database_connect.available_day_doctor(id)
+    return availableDay
 
 # Rise this Page
-def swap_page(id,dayList):   
+def swap_page(id):   
     Frame.tkraise()
-    global doctorsAvailable_day, doctor_id
-    doctorsAvailable_day = dayList
-    doctor_id = id
-    print(doctor_id)
+    global doctorsAvailable_day
+    
+    doctor_id = int(id[0])
+    doctorsAvailable_day = available_dayList(doctor_id)
+
     InputBox()
 
 def InputBox():
@@ -59,3 +63,4 @@ def InputBox():
 
     tk.Button(Frame, text="Cancle",command=lambda:cancle_form(),fg="black",borderwidth=1,bg=ButtonBackground_color,font=("Open sans",12)).place(x=45,y=280,width=100,height=40)
     tk.Button(Frame, text="Confirm",fg="black",borderwidth=1,bg=ButtonBackground_color,font=("Open sans",12)).place(x=200,y=280,width=100,height=40)
+

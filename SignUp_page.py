@@ -33,7 +33,7 @@ class SignUp_patient:
             messagebox.showinfo("Error","You Have Already an Account!",parent=page)
            
 
-    def submit(self):
+    def submit_patient(self):
         # Get Value from the Entries
         name = self.first_name.get() +" "+ self.last_name.get()
         age = int(self.age.get())
@@ -79,7 +79,7 @@ class SignUp_patient:
         tk.Entry(Frame_signup,font=("Open Sans",18),bg="white",textvariable=self.password,relief="raised",show="*").place(x=54,y=440,width=350,height=35)
         
         # Button
-        tk.Button(Frame_signup,command=lambda:self.submit(),cursor="hand2",text="Signup",fg="white",bg="#e60000",font=("Open sans",18)).place(x=137,y=500,width=180,height=40)
+        tk.Button(Frame_signup,command=self.submit_patient,cursor="hand2",text="Signup",fg="white",bg="#e60000",font=("Open sans",18)).place(x=137,y=500,width=180,height=40)
 
         # Login Here Button
         tk.Button(Frame_signup, text="Already Have an Account? Login Here.",fg="#000fff",borderwidth=0,bg="white",font=("Open sans",12)).place(x=80,y=550,width=300,height=40)
@@ -110,14 +110,17 @@ class SignUp_doctor:
             messagebox.showinfo("Error","You Have Already an Account!",parent=page)
 
 
-    def submit(self):
+    def submit(self,list):
         # Get Value from the Entries
         name = self.name.get()
         designation = self.designation.get()
         email = self.email.get()
         password = self.password.get()
+        dayList = []
+        for i in list.curselection():
+            day = list.get(i)
+            dayList.append(day)
         
-        dayList2 = Available_Day().availableDay()
         
         if name=="" or designation=="" or email=="" or password=="":
             messagebox.showerror("Error","All fields are required",parent=page)
@@ -125,7 +128,7 @@ class SignUp_doctor:
         else:
             # Connect with Database
             dbConnect = db.dbConnect()
-            self.submit_confirmation = dbConnect.insertData_doctor(name,designation,email,password,dayList2)
+            self.submit_confirmation = dbConnect.insertData_doctor(name,designation,email,password,dayList)
             self.home_page()
             home_page = Home.DoctorHomePage()
             Frame_signup.destroy()
@@ -155,24 +158,18 @@ class SignUp_doctor:
         
         # Available Day
         tk.Label(Frame_signup,text="*Available Day:",font=("Open Sans",15,"bold"),fg="black",bg="white").place(x=50,y=410)
-        day = Available_Day()
+        list = self.Available_Day()
         # Button
-        tk.Button(Frame_signup,command=lambda:self.submit(),cursor="hand2",text="Signup",fg="white",bg="#e60000",font=("Open sans",18)).place(x=137,y=500,width=180,height=40)
+        tk.Button(Frame_signup,command=lambda:self.submit(list),cursor="hand2",text="Signup",fg="white",bg="#e60000",font=("Open sans",18)).place(x=137,y=500,width=180,height=40)
 
         # Login Here Button
         tk.Button(Frame_signup, text="Already Have an Account? Login Here.",fg="#000fff",borderwidth=0,bg="white",font=("Open sans",12)).place(x=80,y=550,width=300,height=40)
 
-class Available_Day:  
-    dayList = []
-    list = tk.Listbox(Frame_signup, selectmode = "multiple",height=3,width=15,bg='#DCDCDC') 
-    list.place(x=230,y=410)
-    x= ['Sat','Sun','Mon','Tues','Wed','Thurs','Fri'] 
-        
-    for item in range(len(x)):     
-        list.insert(tk.END,  x[item]) 
-
-    def availableDay(self):
-        for i in self.list.curselection():
-            day = self.list.get(i)
-            self.dayList.append(day)
-        return self.dayList
+    def Available_Day(self):  
+        list = tk.Listbox(Frame_signup, selectmode = "multiple",height=3,width=15,bg='#DCDCDC') 
+        list.place(x=230,y=410)
+        x= ['Sat','Sun','Mon','Tues','Wed','Thurs','Fri'] 
+            
+        for item in range(len(x)):     
+            list.insert(tk.END,  x[item])   
+        return list
