@@ -13,12 +13,13 @@ class LoginPage_Doctor:
     login_confirmation = bool()
     email =  tk.StringVar()
     password = tk.StringVar()
+    doctor_id = int()
 
     def __init__(self):
         self.swap_page()
 
     def signup_page(self):
-        Frame_login.destroy()               
+        # Frame_login.destroy()               
         signup.SignUp_doctor()
         
     def swap_page(self):    
@@ -33,7 +34,7 @@ class LoginPage_Doctor:
             messagebox.showerror("Error","Invalid Email/Password",parent=page)
         else:
             messagebox.showinfo("Welcome","Welcome to Mr.Doctor",parent = page)
-            home_page = Home.DoctorHomePage()
+            home_page = Home.DoctorHomePage(self.doctor_id)
             Frame_login.destroy()
             
             
@@ -43,7 +44,9 @@ class LoginPage_Doctor:
         email = self.email.get()
         password = self.password.get()
         dbConnect = db.dbConnect()
-        self.login_confirmation = dbConnect.login_doctor(email,password)
+        login = dbConnect.login_doctor(email,password)
+        self.login_confirmation = login['confirm']
+        self.doctor_id = login['id']
         self.home_page()
         
     # Login Form
@@ -72,14 +75,14 @@ class LoginPage_Patient:
     password = tk.StringVar()
 
     def __init__(self):
-        self.swap_page(Frame_login)
+        self.swap_page()
 
     def signup_page(self):               
         signup.SignUp_patient()
-        Frame_login.destroy()
+        # Frame_login.destroy()
 
-    def swap_page(self,frame):    
-        frame.tkraise()
+    def swap_page(self):    
+        Frame_login.tkraise()
         self.InputBox()
 
      # Home Page

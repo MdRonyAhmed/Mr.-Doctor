@@ -12,8 +12,8 @@ class dbConnect:
     def insertData_patient(self,name, age, email, password):
         try:
             sql_query = "Insert into patient_info(name,age,email,password) values(%s,%s,%s,%s)"
-            patient = [(name,age,email,password)]
-            self.mycursor.executemany(sql_query, patient)
+            info = [(name,age,email,password)]
+            self.mycursor.executemany(sql_query, info)
             self.mydb.commit()
             return True
         except :
@@ -28,12 +28,12 @@ class dbConnect:
         try:
             id = self.id_doctor()
             sql_query = "Insert into doctor_info(id,email,name,designation,password,Available_day) values(%s,%s,%s,%s,%s,%s)"
-            doctor = [(id,email,name,designation,password,day_json)]
-            self.mycursor.executemany(sql_query, doctor)
+            info = [(id,email,name,designation,password,day_json)]
+            self.mycursor.executemany(sql_query, info)
             self.mydb.commit()
-            return True
+            return id
         except :
-            return False
+            return None
 
 
   
@@ -56,15 +56,17 @@ class dbConnect:
     
     # Match email and password with the database for Doctor
     def login_doctor(self,Email,Password):
-        sql_query = "SELECT email,password FROM doctor_info"
+        sql_query = "SELECT ID,email,password FROM doctor_info"
         self.mycursor.execute(sql_query)
 
-        for (email,password) in self.mycursor:
+        for (ID,email,password) in self.mycursor:
             if Email == email and Password == password:
-                login = True
+                login = {'confirm':True,
+                        'id': ID
+                    }
                 break  
             else:
-                login = False
+                login = {'confirm': False}
 
         return login
 
@@ -83,8 +85,19 @@ class dbConnect:
     def doctor_list(self):
         sql_query = "SELECT ID,name,Designation,Available_day FROM doctor_info"
         self.mycursor.execute(sql_query)
+        return (self.mycursor.fetchall())
+    
+    def patient_list(self,id):
+        pat_list = []
+        sql_query = "SELECT Doctor_id,Patient_Name,Age,Contact_number,day FROM appointment_list"
+        self.mycursor.execute(sql_query)
+       
+        for (Doctor_id,Patient_Name,Age,Contact_number,day) in self.mycursor:
+            if(Doctor_id == id):
+                pat_list.append([Patient_Name,Age,Contact_number,day])
+        
+        return pat_list
 
-        return(self.mycursor.fetchall())
 
     
     def available_day_doctor(self,id):
@@ -95,6 +108,18 @@ class dbConnect:
             if (ID == id):
                 return json.loads(Available_day)
 
+    def submit_appointment(self,doc_id, patient_name, patient_age, patient_number, day):
 
+        try:  
+            sql_query = "Insert into appointment_list(Patient_Name,Age,Contact_number,Doctor_id,day) values(%s,%s,%s,%s,%s)"
+            info = [(patient_name,patient_age,patient_number,doc_id,day)]
+            self.mycursor.executemany(sql_query, info)
+            self.mydb.commit()
+            return True
+        except :
+            return False
+
+
+    
 
      

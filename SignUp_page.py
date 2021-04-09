@@ -50,7 +50,12 @@ class SignUp_patient:
             self.home_page()
             home_page = Home.PatientHomePage()
             Frame_signup.destroy()
-        
+
+    def back_logingpage(self):
+        Frame_signup.destroy()
+        login = log.LoginPage_Patient()
+        login.swap_page()
+
       
 
     def InputBox(self):
@@ -82,13 +87,13 @@ class SignUp_patient:
         tk.Button(Frame_signup,command=self.submit_patient,cursor="hand2",text="Signup",fg="white",bg="#e60000",font=("Open sans",18)).place(x=137,y=500,width=180,height=40)
 
         # Login Here Button
-        tk.Button(Frame_signup, text="Already Have an Account? Login Here.",fg="#000fff",borderwidth=0,bg="white",font=("Open sans",12)).place(x=80,y=550,width=300,height=40)
+        tk.Button(Frame_signup,command=lambda: self.back_logingpage(), text="Already Have an Account? Login Here.",fg="#000fff",borderwidth=0,bg="white",font=("Open sans",12)).place(x=80,y=550,width=300,height=40)
 
 
 
 
 class SignUp_doctor:
-    submit_confirmation =bool()
+    submit_confirmation =int()
     name = tk.StringVar()
     designation = tk.StringVar()
     email =  tk.StringVar()
@@ -130,9 +135,13 @@ class SignUp_doctor:
             dbConnect = db.dbConnect()
             self.submit_confirmation = dbConnect.insertData_doctor(name,designation,email,password,dayList)
             self.home_page()
-            home_page = Home.DoctorHomePage()
+            home_page = Home.DoctorHomePage(self.submit_confirmation)
             Frame_signup.destroy()
 
+    def back_logingpage(self):
+        Frame_signup.destroy()
+        login = log.LoginPage_Doctor()
+        login.swap_page()
 
 
     def InputBox(self):
@@ -163,7 +172,7 @@ class SignUp_doctor:
         tk.Button(Frame_signup,command=lambda:self.submit(list),cursor="hand2",text="Signup",fg="white",bg="#e60000",font=("Open sans",18)).place(x=137,y=500,width=180,height=40)
 
         # Login Here Button
-        tk.Button(Frame_signup, text="Already Have an Account? Login Here.",fg="#000fff",borderwidth=0,bg="white",font=("Open sans",12)).place(x=80,y=550,width=300,height=40)
+        tk.Button(Frame_signup,command=lambda: self.back_logingpage(), text="Already Have an Account? Login Here.",fg="#000fff",borderwidth=0,bg="white",font=("Open sans",12)).place(x=80,y=550,width=300,height=40)
 
     def Available_Day(self):  
         list = tk.Listbox(Frame_signup, selectmode = "multiple",height=3,width=15,bg='#DCDCDC') 
