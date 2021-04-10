@@ -1,0 +1,12 @@
+*Login Info For Doctor:
+    email : rony@gmail.com
+    password: 123456
+    
+*Login Info For Ptient:
+    email: tanvir@gmail.com
+    password: 123456
+    
+*Dependency:
+    MySql connector => " pip install mysql-connector "
+
+***Note : Give the path name of the picture in FirstPage.py according to your system storage path
