@@ -46,9 +46,11 @@ class LoginPage_Doctor:
         dbConnect = db.dbConnect()
         login = dbConnect.login_doctor(email,password)
         self.login_confirmation = login['confirm']
-        self.doctor_id = login['id']
+        if(self.login_confirmation):
+            self.doctor_id = login['id']
         self.home_page()
         
+            
     # Login Form
     def InputBox(self):
         # User Name or Email
